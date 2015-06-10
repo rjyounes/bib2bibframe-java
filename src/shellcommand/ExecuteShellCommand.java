@@ -20,33 +20,23 @@ public class ExecuteShellCommand {
         
     }
     
-    public static String test() {
-        return "hello";
-    }
-
     public static String execute(String marcxmluri) {
 
         String output = new String();
         System.out.println(marcxmluri);
         
         try {       
-          
-//            ProcessBuilder pb = new ProcessBuilder("/usr/bin/java",
-//                    "-cp",
-//                    "/Users/rjy7/Workspace/bib2bibframe-java/lib/saxon951/saxon9he.jar",
-//                    "net.sf.saxon.Query",
-//                    "/Users/rjy7/Workspace/bib2bibframe-java/lib/marc2bibframe/xbin/saxon.xqy",
-//                    "marcxmluri=" + marcxmluri,
-//                    "baseuri=http://ld4l.library.cornell.edu/individual/",
-//                    "serialization=rdfxml"       
-//                    );
             
-            ProcessBuilder pb = new ProcessBuilder("/usr/bin/ruby",
-                    "/Users/rjy7/data/data-tools/marcxml2bibframe.rb",
-                    "--baseuri=http://ld4l.library.cornell.edu/individual/",
-                    "--targetdir=/Users/rjy7/Workspace/bib2bibframe-java/output",
-                    "--source=" + marcxmluri    
+            ProcessBuilder pb = new ProcessBuilder("/usr/bin/java",
+                    "-cp",
+                    "/Users/rjy7/Workspace/bib2bibframe-java/lib/saxon951/saxon9he.jar",
+                    "net.sf.saxon.Query",
+                    "/Users/rjy7/Workspace/bib2bibframe-java/lib/marc2bibframe/xbin/saxon.xqy",
+                    "marcxmluri=" + marcxmluri,
+                    "baseuri=http://ld4l.library.cornell.edu/individual/",
+                    "serialization=rdfxml"       
                     );
+
  
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
             String outputDirName = format.format(new Date());
