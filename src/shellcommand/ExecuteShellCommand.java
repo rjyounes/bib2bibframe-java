@@ -19,7 +19,4 @@ public class ExecuteShellCommand {
         
     }
     
-    public static String getDirectoryPath(String... parts) {
-        return StringUtils.join(parts, File.separatorChar);
-    }
 }

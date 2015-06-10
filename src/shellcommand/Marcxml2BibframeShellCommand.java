@@ -1,13 +1,8 @@
 package shellcommand;
 
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.lang.ProcessBuilder.Redirect;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.apache.commons.io.FilenameUtils;
+import java.io.InputStreamReader;
 
 public class Marcxml2BibframeShellCommand {
       
@@ -17,20 +12,6 @@ public class Marcxml2BibframeShellCommand {
     public static String execute(String marcxmluri) {
 
         String output = new String();
-        
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
-        String datetime = format.format(new Date());
-        // If supporting multiple RDF formats, "rdfxml" will vary depending
-        // on format.
-        // Simplify directory structure for debugging
-        // String parentName = System.getProperty("user.dir") + "/out/"; 
-        String parentName = ExecuteShellCommand.getDirectoryPath(System.getProperty("user.dir"), "out", datetime, "bibframe", "rdfxml");
-
-        File parent = new File(parentName);
-        parent.mkdirs();
-        
-        String basename = FilenameUtils.getBaseName(marcxmluri);
-        File outputFile = new File(parent, basename + ".rdf");  
         
         try {       
             
@@ -55,18 +36,19 @@ public class Marcxml2BibframeShellCommand {
             // Map<String, String> env = pb.environment();
             pb.environment();
             
-            pb.redirectOutput(Redirect.appendTo(outputFile));
-            //pb.redirectOutput(Process.getInputStream());
+            // Send output to a file instead of building a string
+            //pb.redirectOutput(Redirect.appendTo(outputFile));
             
-            // Process p = pb.start();
-            pb.start();
-            
-            // TODO Read in output file contents as String and return
-            // If we don't want the file, r Process.getInputStream()
-            // This should read the contents of outputFile into a String, but
-            // it doesn't.
-            //output = FileUtils.readFileToString(outputFile);
-            //outputFile.delete();
+            Process p = pb.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    p.getInputStream()));
+            StringBuilder builder = new StringBuilder();
+            String line = null;
+            String lineSeparator = System.getProperty("line.separator");
+            while ( ( line = reader.readLine()) != null) {
+                builder.append(line + lineSeparator);
+            }
+            output = builder.toString();
             
 
         } catch (IOException e) {
