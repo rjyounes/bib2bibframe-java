@@ -6,7 +6,6 @@ import java.lang.ProcessBuilder.Redirect;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -24,6 +23,19 @@ public class ExecuteShellCommand {
 
         String output = new String();
         
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+        String datetime = format.format(new Date());
+        // If supporting multiple RDF formats, "rdfxml" will vary depending
+        // on format.
+        // Simplify directory structure for debugging
+        // String parentName = System.getProperty("user.dir") + "/out/"; 
+        String parentName = System.getProperty("user.dir") + "/out/" + datetime + "/bibframe/rdfxml";
+        File parent = new File(parentName);
+        parent.mkdirs();
+        
+        String basename = FilenameUtils.getBaseName(marcxmluri);
+        File outputFile = new File(parent, basename + ".rdf");  
+        
         try {       
             
             ProcessBuilder pb = new ProcessBuilder("/usr/bin/java",
@@ -36,18 +48,7 @@ public class ExecuteShellCommand {
                     "serialization=rdfxml"       
                     );
  
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
-            String datetime = format.format(new Date());
-            // If supporting multiple RDF formats, "rdfxml" will vary depending
-            // on format.
-            // Simplify directory structure for debugging
-            // String parentName = System.getProperty("user.dir") + "/out/"; 
-            String parentName = System.getProperty("user.dir") + "/out/" + datetime + "/bibframe/rdfxml";
-            File parent = new File(parentName);
-            parent.mkdirs();
-            
-            String basename = FilenameUtils.getBaseName(marcxmluri);
-            File outputFile = new File(parent, basename + ".rdf");   
+ 
             
             // Working directory; default is the current working directory of 
             // the current process.
@@ -78,7 +79,6 @@ public class ExecuteShellCommand {
         } 
         
         return output;
-
 
     }
     
