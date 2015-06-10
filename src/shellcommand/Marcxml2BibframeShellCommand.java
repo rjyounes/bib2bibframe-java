@@ -11,6 +11,9 @@ import org.apache.commons.io.FilenameUtils;
 
 public class Marcxml2BibframeShellCommand {
       
+    // TODO Pass in more parameters rather than hard-coding the values. If we're
+    // not keeping the file but returning the output as a string, that would 
+    // work, since we don't care about the directory structure.
     public static String execute(String marcxmluri) {
 
         String output = new String();
@@ -21,7 +24,8 @@ public class Marcxml2BibframeShellCommand {
         // on format.
         // Simplify directory structure for debugging
         // String parentName = System.getProperty("user.dir") + "/out/"; 
-        String parentName = System.getProperty("user.dir") + "/out/" + datetime + "/bibframe/rdfxml";
+        String parentName = ExecuteShellCommand.getDirectoryPath(System.getProperty("user.dir"), "out", datetime, "bibframe", "rdfxml");
+
         File parent = new File(parentName);
         parent.mkdirs();
         
@@ -39,8 +43,7 @@ public class Marcxml2BibframeShellCommand {
                     "baseuri=http://ld4l.library.cornell.edu/individual/",
                     "serialization=rdfxml"       
                     );
- 
- 
+
             
             // Working directory; default is the current working directory of 
             // the current process.
@@ -74,7 +77,5 @@ public class Marcxml2BibframeShellCommand {
         return output;
 
     }
-    
-
 
 }
