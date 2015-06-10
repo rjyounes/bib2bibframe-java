@@ -23,7 +23,6 @@ public class ExecuteShellCommand {
     public static String execute(String marcxmluri) {
 
         String output = new String();
-        System.out.println(marcxmluri);
         
         try {       
             
@@ -36,14 +35,14 @@ public class ExecuteShellCommand {
                     "baseuri=http://ld4l.library.cornell.edu/individual/",
                     "serialization=rdfxml"       
                     );
-
  
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
-            String outputDirName = format.format(new Date());
+            String datetime = format.format(new Date());
             // If supporting multiple RDF formats, "rdfxml" will vary depending
             // on format.
-            // String parentName = System.getProperty("user.dir") + "/out/" + outputDirName + "/bibframe/rdfxml";
-            String parentName = System.getProperty("user.dir") + "/out/"; // for debugging
+            // Simplify directory structure for debugging
+            // String parentName = System.getProperty("user.dir") + "/out/"; 
+            String parentName = System.getProperty("user.dir") + "/out/" + datetime + "/bibframe/rdfxml";
             File parent = new File(parentName);
             parent.mkdirs();
             
@@ -53,13 +52,11 @@ public class ExecuteShellCommand {
             // Working directory; default is the current working directory of 
             // the current process.
             pb.directory();
-            //pb.directory(new File("/Users/rjy7/Workspace/bib2bibframe-java/"));
             
             // Required even though we're just using the default environment
             // (copy of the environment in the current process).
             // Assign to a variable if we want to set values.
-            Map<String, String> env = pb.environment();
-            //pb.environment();
+            pb.environment();
             
             pb.redirectOutput(Redirect.appendTo(outputFile));
             //pb.redirectOutput(Process.getInputStream());
