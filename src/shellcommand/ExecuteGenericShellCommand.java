@@ -43,7 +43,8 @@ public class ExecuteGenericShellCommand {
             // Map<String, String> env = pb.environment();
             pb.environment();
             
-            // Send output to a file instead of building a string
+            // Send output to a file instead of building a string.
+            // outputFile = new File(...);
             //pb.redirectOutput(Redirect.appendTo(outputFile));
             
             Process p = pb.start();
